@@ -1,8 +1,13 @@
 <template>
   <div class="game-board">
     <div class="control-panel">
-      <button @click="startGame">Başla</button>
-      <button @click="pauseGame">{{ isPaused ? 'Devam' : 'Durdur' }}</button>
+      <button
+        @click="startOrResetGame"
+        :style="{backgroundColor: isGameStarted ? 'red' : 'green' , borderRadius: '10px' }">
+        {{ isGameStarted ? 'Reset' : 'Başla' }}
+      </button>
+      <button @click="pauseGame" :style="{ backgroundColor: isPaused ? 'yellow' : 'orange' ,borderRadius: '10px' }">
+      {{ isPaused ? 'Devam' : 'Durdur' }}</button>
       <div class="timer">{{ formatTime }}</div>
     </div>
     <div class="cards-grid">
@@ -37,9 +42,10 @@ export default {
       disableClicks: false,
       startTime: 0,
       currentTime: 0,
-      totalTime: 60, // 1 dakika (60 saniye)
+      totalTime: 60,
       timerInterval: null,
-      isPaused: false
+      isPaused: false,
+      isGameStarted: false
     };
   },
   computed: {
@@ -76,10 +82,21 @@ export default {
           this.currentTime = Math.floor(Date.now() / 1000) - this.startTime;
           if (this.currentTime >= this.totalTime) {
             clearInterval(this.timerInterval);
+
             // Oyun süresi dolduğunda yapılacak işlemler buraya eklenebilir
+
+
           }
         }
       }, 1000);
+    },
+    startOrResetGame() {
+      if (this.isGameStarted) {
+        this.initializeGame();
+      } else {
+        this.startGame();
+      }
+      this.isGameStarted = !this.isGameStarted;
     },
     startGame() {
       this.initializeGame();
@@ -141,8 +158,8 @@ export default {
     },
     getShuffledColors() {
       return this.colors
-        .concat(this.colors) // Her rengi iki kez ekleyerek eşleşmeleri sağlayın
-        .sort(() => Math.random() - 0.5); // Renkleri karıştır
+        .concat(this.colors)
+        .sort(() => Math.random() - 0.5);
     }
   }
 }
