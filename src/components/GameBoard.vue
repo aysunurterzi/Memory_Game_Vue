@@ -28,7 +28,8 @@ export default {
         'yellow', 'orange', 'black', 'purple'
       ],
       cards: [],
-      flippedCards: []
+      flippedCards: [],
+      disableClicks: false
     }
   },
   created() {
@@ -37,8 +38,8 @@ export default {
   computed: {
     shuffledColors() {
       return this.colors
-        .concat(this.colors) // Her rengi iki kez ekleyerek eşleşmeleri sağlayın
-        .sort(() => Math.random() - 0.5); // Renkleri karıştır
+        .concat(this.colors) 
+        .sort(() => Math.random() - 0.5); 
     }
   },
   methods: {
@@ -52,6 +53,8 @@ export default {
       this.flippedCards = [];
     },
     handleCardClick(index) {
+      if (this.disableClicks) return;
+
       const card = this.cards[index];
       if (card.isMatched || card.isFlipped || this.flippedCards.length === 2) {
         return;
@@ -63,19 +66,25 @@ export default {
       }
     },
     checkMatch() {
+      this.disableClicks = true;
       const [firstIndex, secondIndex] = this.flippedCards;
       const firstCard = this.cards[firstIndex];
       const secondCard = this.cards[secondIndex];
       if (firstCard.color === secondCard.color) {
         firstCard.isMatched = true;
         secondCard.isMatched = true;
+        this.resetFlippedCards();
       } else {
         setTimeout(() => {
           firstCard.isFlipped = false;
           secondCard.isFlipped = false;
+          this.resetFlippedCards();
         }, 1000);
       }
+    },
+    resetFlippedCards() {
       this.flippedCards = [];
+      this.disableClicks = false;
     }
   }
 }
