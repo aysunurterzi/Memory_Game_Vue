@@ -1,42 +1,65 @@
-
 <template>
-  <div @click="handleClick" :class="{ 'card': true, 'open': isOpen }">
-    <img v-if="isOpen" :src="data.image" :alt="data.id">
+  <div
+    class="card"
+    :class="{ flipped: isFlipped, matched: isMatched }"
+    @click="handleClick"
+  >
+    <div class="card-inner">
+      <div class="card-front"></div>
+      <div class="card-back" :style="{ backgroundColor: color }"></div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: {
-    data: Object // Kart verisi
-  },
-  data() {
-    return {
-      isOpen: false // Kartın açık olup olmadığını belirten bayrak
-    };
-  },
+  name: 'MemoryCard',
+  props: ['color', 'isFlipped', 'isMatched'],
   methods: {
     handleClick() {
-      if (!this.isOpen) {
-        this.$emit('select', this);
-        this.isOpen = true;
-      }
+      this.$emit('click')
     }
   }
-};
+}
 </script>
 
 <style scoped>
 .card {
   width: 100px;
   height: 100px;
-  background-color: #ccc;
-  display: inline-block;
+  perspective: 1000px;
   margin: 5px;
-  cursor: pointer;
 }
 
-.open {
-  background-color: #fff;
+.card-inner {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+.card-front {
+  background-color: #ccc; /* Gri */
+}
+
+.card-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: white;
 }
 </style>

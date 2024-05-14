@@ -1,26 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Memory Game</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div id="app">
-    <div id="game_actions">
-      <div id="game_actions_time">{{ remainingTime }}</div>
-      <button @click="startGame">Start Game</button>
-      <button @click="resetGame">Reset Game</button>
-    </div>
-    <div id="grid">
-      <div v-for="(card, index) in cards" :key="index" class="grid-cell" @click="flipCard(index)">
-        <img :src="'assets/img/' + card.image + '.png'" :data-id="card.image" v-if="!card.flipped && !card.won">
-        <img src="assets/img/card-back.png" v-else>
-      </div>
-    </div>
-  </div>
-
-
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>memory-game</title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but memory-game doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
 </html>
