@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <button @click="startGame" v-if="!gameStarted">Başla</button>
+    <button @click="startGame" v-if="!gameStarted">MEMORY GAME</button>
     <GameBoard v-if="gameStarted" />
   </div>
 </template>

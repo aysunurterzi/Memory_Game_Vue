@@ -1,6 +1,9 @@
 <template>
   <div class="game-board">
-    <div class="timer">{{ formatTime }}</div>
+    <div class="control-panel">
+      <button @click="startGame">Başla</button>
+      <div class="timer">{{ formatTime }}</div>
+    </div>
     <div class="cards-grid">
       <MemoryCard
         v-for="(card, index) in cards"
@@ -46,9 +49,8 @@ export default {
   },
   created() {
     this.initializeGame();
-    this.startTimer();
   },
-  unmounted() { // destroyed yerine unmounted kullanıyoruz
+  unmounted() {
     clearInterval(this.timerInterval);
   },
   methods: {
@@ -60,6 +62,9 @@ export default {
         isMatched: false
       }));
       this.flippedCards = [];
+      this.disableClicks = false;
+      this.currentTime = 0;
+      clearInterval(this.timerInterval);
     },
     startTimer() {
       this.startTime = Math.floor(Date.now() / 1000);
@@ -70,6 +75,10 @@ export default {
           // Oyun süresi dolduğunda yapılacak işlemler buraya eklenebilir
         }
       }, 1000);
+    },
+    startGame() {
+      this.initializeGame();
+      this.startTimer();
     },
     handleCardClick(index) {
       if (this.disableClicks) return;
@@ -93,6 +102,7 @@ export default {
         firstCard.isMatched = true;
         secondCard.isMatched = true;
         this.resetFlippedCards();
+        this.checkAllMatched();
       } else {
         setTimeout(() => {
           firstCard.isFlipped = false;
@@ -104,6 +114,12 @@ export default {
     resetFlippedCards() {
       this.flippedCards = [];
       this.disableClicks = false;
+    },
+    checkAllMatched() {
+      const allMatched = this.cards.every(card => card.isMatched);
+      if (allMatched) {
+        clearInterval(this.timerInterval);
+      }
     },
     getShuffledColors() {
       return this.colors
@@ -121,9 +137,21 @@ export default {
   align-items: center;
 }
 
+.control-panel {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.control-panel button {
+  margin-right: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 .timer {
   font-size: 24px;
-  margin-bottom: 20px;
 }
 
 .cards-grid {
