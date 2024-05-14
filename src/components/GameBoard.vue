@@ -2,12 +2,12 @@
   <div class="game-board">
     <div class="cards-grid">
       <MemoryCard
-        v-for="card in cards"
+        v-for="(card, index) in cards"
         :key="card.id"
-        :color="card.color"
+        :color="card.isFlipped || card.isMatched ? card.color : 'grey'"
         :is-flipped="card.isFlipped"
         :is-matched="card.isMatched"
-        @click="handleCardClick(card)"
+        @click="handleCardClick(index)"
       />
     </div>
   </div>
@@ -27,11 +27,12 @@ export default {
         'red', 'blue', 'pink', 'green',
         'yellow', 'orange', 'black', 'purple'
       ],
-      cards: []
+      cards: [],
+      flippedCards: []
     }
   },
   created() {
-    this.initializeGame()
+    this.initializeGame();
   },
   computed: {
     shuffledColors() {
@@ -48,10 +49,33 @@ export default {
         isFlipped: false,
         isMatched: false
       }));
+      this.flippedCards = [];
     },
-    handleCardClick(card) {
-      // Kart tıklanınca burada işlemler yapılacak
-      console.log(`Clicked card id: ${card.id}, color: ${card.color}`);
+    handleCardClick(index) {
+      const card = this.cards[index];
+      if (card.isMatched || card.isFlipped || this.flippedCards.length === 2) {
+        return;
+      }
+      card.isFlipped = true;
+      this.flippedCards.push(index);
+      if (this.flippedCards.length === 2) {
+        this.checkMatch();
+      }
+    },
+    checkMatch() {
+      const [firstIndex, secondIndex] = this.flippedCards;
+      const firstCard = this.cards[firstIndex];
+      const secondCard = this.cards[secondIndex];
+      if (firstCard.color === secondCard.color) {
+        firstCard.isMatched = true;
+        secondCard.isMatched = true;
+      } else {
+        setTimeout(() => {
+          firstCard.isFlipped = false;
+          secondCard.isFlipped = false;
+        }, 1000);
+      }
+      this.flippedCards = [];
     }
   }
 }
