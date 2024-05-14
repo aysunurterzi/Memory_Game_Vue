@@ -1,13 +1,14 @@
 <template>
   <div class="game-board">
     <div class="control-panel">
-      <button
-        @click="startOrResetGame"
-        :style="{backgroundColor: isGameStarted ? 'red' : 'green' , borderRadius: '10px' }">
+      <button 
+        @click="startOrResetGame" 
+        :style="{ backgroundColor: isGameStarted ? 'red' : 'green', borderRadius: '30px' }">
         {{ isGameStarted ? 'Reset' : 'Başla' }}
       </button>
-      <button @click="pauseGame" :style="{ backgroundColor: isPaused ? 'yellow' : 'orange' ,borderRadius: '10px' }">
-      {{ isPaused ? 'Devam' : 'Durdur' }}</button>
+      <button @click="pauseGame" :style="{ borderRadius: '30px' }">
+        {{ isPaused ? 'Devam' : 'Durdur' }}
+      </button>
       <div class="timer">{{ formatTime }}</div>
     </div>
     <div class="cards-grid">
@@ -19,6 +20,13 @@
         :is-matched="card.isMatched"
         @click="handleCardClick(index)"
       />
+    </div>
+    <div v-if="isGameWon" class="modal">
+      <div class="modal-content">
+        <h2>Tebrikler, oyunu bitirdiniz!</h2>
+        <p>Süreniz: {{ formatTime }}</p>
+        <button @click="closeModal" style="border-radius: 30px;">Kapat</button>
+      </div>
     </div>
   </div>
 </template>
@@ -42,10 +50,11 @@ export default {
       disableClicks: false,
       startTime: 0,
       currentTime: 0,
-      totalTime: 60,
+      totalTime: 60, // 1 dakika (60 saniye)
       timerInterval: null,
       isPaused: false,
-      isGameStarted: false
+      isGameStarted: false, // Oyun başladı mı?
+      isGameWon: false // Oyun kazanıldı mı?
     };
   },
   computed: {
@@ -73,6 +82,7 @@ export default {
       this.disableClicks = false;
       this.currentTime = 0;
       this.isPaused = false;
+      this.isGameWon = false;
       clearInterval(this.timerInterval);
     },
     startTimer() {
@@ -82,18 +92,17 @@ export default {
           this.currentTime = Math.floor(Date.now() / 1000) - this.startTime;
           if (this.currentTime >= this.totalTime) {
             clearInterval(this.timerInterval);
-
             // Oyun süresi dolduğunda yapılacak işlemler buraya eklenebilir
-
-
           }
         }
       }, 1000);
     },
     startOrResetGame() {
       if (this.isGameStarted) {
+        // Oyun sıfırlama
         this.initializeGame();
       } else {
+        // Oyun başlatma
         this.startGame();
       }
       this.isGameStarted = !this.isGameStarted;
@@ -154,12 +163,16 @@ export default {
       const allMatched = this.cards.every(card => card.isMatched);
       if (allMatched) {
         clearInterval(this.timerInterval);
+        this.isGameWon = true;
       }
     },
     getShuffledColors() {
       return this.colors
-        .concat(this.colors)
-        .sort(() => Math.random() - 0.5);
+        .concat(this.colors) // Her rengi iki kez ekleyerek eşleşmeleri sağlayın
+        .sort(() => Math.random() - 0.5); // Renkleri karıştır
+    },
+    closeModal() {
+      this.isGameWon = false;
     }
   }
 }
@@ -183,6 +196,7 @@ export default {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+  border-radius: 30px;
 }
 
 .timer {
@@ -193,5 +207,38 @@ export default {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 10px;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  padding: 20px;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.modal-content {
+  text-align: center;
+}
+
+.modal-content h2 {
+  margin: 0 0 10px;
+}
+
+.modal-content p {
+  margin: 10px 0;
+}
+
+.modal-content button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 30px;
 }
 </style>
