@@ -2,6 +2,7 @@
   <div class="game-board">
     <div class="control-panel">
       <button @click="startGame">Başla</button>
+      <button @click="pauseGame">{{ isPaused ? 'Devam' : 'Durdur' }}</button>
       <div class="timer">{{ formatTime }}</div>
     </div>
     <div class="cards-grid">
@@ -37,7 +38,8 @@ export default {
       startTime: 0,
       currentTime: 0,
       totalTime: 60, // 1 dakika (60 saniye)
-      timerInterval: null
+      timerInterval: null,
+      isPaused: false
     };
   },
   computed: {
@@ -64,15 +66,18 @@ export default {
       this.flippedCards = [];
       this.disableClicks = false;
       this.currentTime = 0;
+      this.isPaused = false;
       clearInterval(this.timerInterval);
     },
     startTimer() {
       this.startTime = Math.floor(Date.now() / 1000);
       this.timerInterval = setInterval(() => {
-        this.currentTime = Math.floor(Date.now() / 1000) - this.startTime;
-        if (this.currentTime >= this.totalTime) {
-          clearInterval(this.timerInterval);
-          // Oyun süresi dolduğunda yapılacak işlemler buraya eklenebilir
+        if (!this.isPaused) {
+          this.currentTime = Math.floor(Date.now() / 1000) - this.startTime;
+          if (this.currentTime >= this.totalTime) {
+            clearInterval(this.timerInterval);
+            // Oyun süresi dolduğunda yapılacak işlemler buraya eklenebilir
+          }
         }
       }, 1000);
     },
@@ -80,8 +85,21 @@ export default {
       this.initializeGame();
       this.startTimer();
     },
+    pauseGame() {
+      if (this.isPaused) {
+        this.resumeGame();
+      } else {
+        this.isPaused = true;
+        this.disableClicks = true;
+      }
+    },
+    resumeGame() {
+      this.isPaused = false;
+      this.disableClicks = false;
+      this.startTime = Math.floor(Date.now() / 1000) - this.currentTime;
+    },
     handleCardClick(index) {
-      if (this.disableClicks) return;
+      if (this.disableClicks || this.isPaused) return;
 
       const card = this.cards[index];
       if (card.isMatched || card.isFlipped || this.flippedCards.length === 2) {
