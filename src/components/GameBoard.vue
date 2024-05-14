@@ -1,5 +1,6 @@
 <template>
   <div class="game-board">
+    <div class="timer">{{ formatTime }}</div>
     <div class="cards-grid">
       <MemoryCard
         v-for="(card, index) in cards"
@@ -14,7 +15,7 @@
 </template>
 
 <script>
-import MemoryCard from './MemoryCard.vue'
+import MemoryCard from './MemoryCard.vue';
 
 export default {
   name: 'GameBoard',
@@ -29,28 +30,46 @@ export default {
       ],
       cards: [],
       flippedCards: [],
-      disableClicks: false
+      disableClicks: false,
+      startTime: 0,
+      currentTime: 0,
+      totalTime: 60, // 1 dakika (60 saniye)
+      timerInterval: null
+    };
+  },
+  computed: {
+    formatTime() {
+      const minutes = Math.floor(this.currentTime / 60);
+      const seconds = this.currentTime % 60;
+      return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
   },
   created() {
     this.initializeGame();
+    this.startTimer();
   },
-  computed: {
-    shuffledColors() {
-      return this.colors
-        .concat(this.colors) 
-        .sort(() => Math.random() - 0.5); 
-    }
+  unmounted() { // destroyed yerine unmounted kullanıyoruz
+    clearInterval(this.timerInterval);
   },
   methods: {
     initializeGame() {
-      this.cards = this.shuffledColors.map((color, index) => ({
+      this.cards = this.getShuffledColors().map((color, index) => ({
         id: index,
         color,
         isFlipped: false,
         isMatched: false
       }));
       this.flippedCards = [];
+    },
+    startTimer() {
+      this.startTime = Math.floor(Date.now() / 1000);
+      this.timerInterval = setInterval(() => {
+        this.currentTime = Math.floor(Date.now() / 1000) - this.startTime;
+        if (this.currentTime >= this.totalTime) {
+          clearInterval(this.timerInterval);
+          // Oyun süresi dolduğunda yapılacak işlemler buraya eklenebilir
+        }
+      }, 1000);
     },
     handleCardClick(index) {
       if (this.disableClicks) return;
@@ -85,6 +104,11 @@ export default {
     resetFlippedCards() {
       this.flippedCards = [];
       this.disableClicks = false;
+    },
+    getShuffledColors() {
+      return this.colors
+        .concat(this.colors) // Her rengi iki kez ekleyerek eşleşmeleri sağlayın
+        .sort(() => Math.random() - 0.5); // Renkleri karıştır
     }
   }
 }
@@ -93,8 +117,13 @@ export default {
 <style scoped>
 .game-board {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+}
+
+.timer {
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .cards-grid {
