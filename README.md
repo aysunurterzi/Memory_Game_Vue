@@ -18,7 +18,7 @@ To run the project, follow these steps:
 
 1. Clone this repo:
      ```bash
-     git clone https://github.com/username/memory-game.git
+     git clone https://github.com/aysunurterzi/Memory_Game_Vue.git
      ```
 2. Go to the project directory:
      ```bash
