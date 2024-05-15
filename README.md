@@ -2,6 +2,8 @@
 
 This project is a memory game created using Vue.js. The user completes the game by trying to match colored cards. It has game start, pause and reset features.
 
+Demo video of my project:
+
 https://github.com/aysunurterzi/Memory_Game_Vue/assets/80470813/5c666e8c-1472-425a-ab51-004525857d78
 
 ## Features
