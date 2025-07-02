@@ -20,7 +20,7 @@ This is an interactive memory game where players flip cards to find matching pai
 
 Check out the game in action:
 
-https://github.com/aysunurterzi/Memory_Game_Vue/assets/80470813/5c666e8c-1472-425a-ab51-004525857d78
+[https://github.com/aysunurterzi/Memory_Game_Vue/assets/80470813/5c666e8c-1472-425a-ab51-004525857d78](https://github.com/user-attachments/assets/d51ace88-8896-4140-b27a-842ba8cfdb76)
 
 ---
 
