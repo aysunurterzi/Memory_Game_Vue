@@ -19,13 +19,16 @@ This is an interactive memory game where players flip cards to find matching pai
 ### 🎥 Demo
 
 <div align="center">
-  <p><strong>🎮 Experience the Memory Game in action!</strong></p>
+  <p><strong>🎮 Watch the Memory Game in action!</strong></p>
   
-  <p>🎬 <em>Demo video is available locally in the project folder</em></p>
-  <p>📍 <code>public/memory-game.mov</code> - Watch how easy it is to match the cute animal pairs!</p>
+  <video width="700" controls poster="" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <source src="memory-game.mp4" type="video/mp4">
+    <source src="memory-game.mp4" type="video/quicktime">
+    Your browser does not support the video tag. 
+    <a href="memory-game.mp4">Download the demo video</a>
+  </video>
   
-  <p>🚀 <strong>Or better yet - try it yourself!</strong></p>
-  <p>Run <code>npm run serve</code> and visit <code>http://localhost:8080</code></p>
+  <p><em>🎯 See how easy it is to match the cute animal pairs!</em></p>
 </div>
 
 ---
@@ -129,7 +132,7 @@ npm run build
 Memory_Game_Vue/
 ├── 📁 public/
 │   ├── 🌐 index.html          # Main HTML template
-│   ├── 🎥 memory-game.mov     # Demo video (local only)
+│   ├── 🎥 memory-game.mp4     # Demo video
 │   └── 🖼️ favicon.ico         # App icon
 ├── 📁 src/
 │   ├── 📁 assets/

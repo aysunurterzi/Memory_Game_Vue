@@ -22,7 +22,7 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-# Large video files
+# Video files
 *.mov
 *.mp4
 *.avi
