@@ -131,7 +131,6 @@ npm run build
 Memory_Game_Vue/
 ├── 📁 public/
 │   ├── 🌐 index.html          # Main HTML template
-│   ├── 🎥 memory-game.mp4     # Demo video
 │   └── 🖼️ favicon.ico         # App icon
 ├── 📁 src/
 │   ├── 📁 assets/
