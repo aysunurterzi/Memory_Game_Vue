@@ -21,12 +21,11 @@ This is an interactive memory game where players flip cards to find matching pai
 <div align="center">
   <p><strong>🎮 Watch the Memory Game in action!</strong></p>
   
-  <video width="700" controls poster="" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-    <source src="memory-game.mp4" type="video/mp4">
-    <source src="memory-game.mp4" type="video/quicktime">
-    Your browser does not support the video tag. 
-    <a href="memory-game.mp4">Download the demo video</a>
-  </video>
+ 
+
+https://github.com/user-attachments/assets/12647f6d-c422-44b7-bf7a-bfe17a792db0
+
+
   
   <p><em>🎯 See how easy it is to match the cute animal pairs!</em></p>
 </div>
