@@ -18,9 +18,15 @@ This is an interactive memory game where players flip cards to find matching pai
 
 ### 🎥 Demo
 
-Check out the game in action:
-
-[https://github.com/aysunurterzi/Memory_Game_Vue/assets/80470813/5c666e8c-1472-425a-ab51-004525857d78](https://github.com/user-attachments/assets/d51ace88-8896-4140-b27a-842ba8cfdb76)
+<div align="center">
+  <p><strong>🎮 Experience the Memory Game in action!</strong></p>
+  
+  <p>🎬 <em>Demo video is available locally in the project folder</em></p>
+  <p>📍 <code>public/memory-game.mov</code> - Watch how easy it is to match the cute animal pairs!</p>
+  
+  <p>🚀 <strong>Or better yet - try it yourself!</strong></p>
+  <p>Run <code>npm run serve</code> and visit <code>http://localhost:8080</code></p>
+</div>
 
 ---
 
@@ -123,6 +129,7 @@ npm run build
 Memory_Game_Vue/
 ├── 📁 public/
 │   ├── 🌐 index.html          # Main HTML template
+│   ├── 🎥 memory-game.mov     # Demo video (local only)
 │   └── 🖼️ favicon.ico         # App icon
 ├── 📁 src/
 │   ├── 📁 assets/
